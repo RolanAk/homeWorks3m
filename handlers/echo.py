@@ -3,7 +3,7 @@ from aiogram import types, Dispatcher
 
 async def echo_handler(message: types.Message):
 
-    if message.isdigit():
+    if message.text.isdigit():
         await message.answer(int(message) ** 2)
     else:
         await message.answer(message.text)

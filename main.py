@@ -1,7 +1,8 @@
 from config import bot, dp, Admins
 from aiogram import executor, types
 import logging
-from handlers import commands, quiz, fsm_reg, echo
+from handlers import commands, quiz, fsm_reg, echo, fsm_hw
+from db_main import db
 
 
 async def on_startup(_):
@@ -17,6 +18,7 @@ async def on_shutdown(_):
 commands.register_commands(dp)
 quiz.register_handler_quiz(dp)
 fsm_reg.reg_handler_fsm_registration(dp)
+fsm_hw.reg_handler_fsm_store(dp)
 echo.register_echo(dp)
 
 if __name__ == '__main__':
