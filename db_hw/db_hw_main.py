@@ -10,7 +10,7 @@ async def sql_create():
         print('db connected')
     cursor.execute(queries_hw.CREATE_TABLE_TABLE)
 
-async def sql_insert_sql_for_hw(productid, category, infoproduct):
+async def sql_insert_sql_for_hw(product_id, category, infoproduct, id, collection):
     cursor.execute(queries_hw.INSERT_product_details, (
-        productid, category, infoproduct
+        product_id, category, infoproduct, id, collection
     ))

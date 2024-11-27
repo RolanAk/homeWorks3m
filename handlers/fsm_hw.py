@@ -13,6 +13,7 @@ class store_fsm(StatesGroup):
     price = State()
     info_product = State()
     category = State()
+    collection = State()
     photo = State()
     submit = State()
 
@@ -62,6 +63,13 @@ async def load_category(message: types.Message, state=FSMContext):
     await message.answer("Введите размер товара: ")
     await store_fsm.next()
 
+async def load_collection(message: types.Message, state=FSMContext):
+    async with state.proxy() as data:
+        data['collection'] = message.text
+
+    await message.answer("Введите collection: ")
+    await store_fsm.next()
+
 
 async def load_photo(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
@@ -73,6 +81,7 @@ async def load_photo(message: types.Message, state=FSMContext):
                                        f"Размер - {data['size']}\n"
                                        f"Цена - {data['price']}\n"
                                        f"категория - {data['category']}\n"
+                                       f"collection - {data['collection']}\n"
                                        f"инфо  продукт - {data['info_product()']}\n")
 
     await message.answer("Верные ли данные?", reply_markup=buttonsForFsmHw.submit)
@@ -120,6 +129,7 @@ def reg_handler_fsm_store(dp: Dispatcher):
     dp.register_message_handler(load_category, state=store_fsm.category)
     dp.register_message_handler(load_size, state=store_fsm.size)
     dp.register_message_handler(load_price, state=store_fsm.price)
+    dp.register_message_handler(load_collection, state=store_fsm.collection)
     dp.register_message_handler(load_photo, state=store_fsm.photo, content_types=['photo'])
     dp.register_message_handler(submit, state=store_fsm.submit)
 
