@@ -1,7 +1,7 @@
 import sqlite3
 from db_main import queries
 
-db_main = sqlite3.connect('db_main/store.sqlite30')
+db_main = sqlite3.connect('db_main/store.sqlite3')
 cursor = db_main.cursor()
 
 
@@ -16,3 +16,4 @@ async def sql_insert_store(name, category, size, price, photo):
         name, category, size, price, photo
     ))
     db_main.commit()
+

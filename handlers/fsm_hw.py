@@ -9,9 +9,10 @@ import buttonsForFsmHw
 class store_fsm(StatesGroup):
 
     name = State()
-    category = State()
     size = State()
     price = State()
+    info_product = State()
+    category = State()
     photo = State()
     submit = State()
 
@@ -27,14 +28,6 @@ async def load_name(message: types.Message, state=FSMContext):
         data['name'] = message.text
 
     await message.answer("Введите категорию для товара: ")
-    await store_fsm.next()
-
-
-async def load_category(message: types.Message, state=FSMContext):
-    async with state.proxy() as data:
-        data['category'] = message.text
-
-    await message.answer("Введите размер товара: ")
     await store_fsm.next()
 
 
@@ -54,6 +47,22 @@ async def load_price(message: types.Message, state=FSMContext):
     await store_fsm.next()
 
 
+async def load_info_product(message: types.Message, state=FSMContext):
+    async with state.proxy() as data:
+        data['category'] = message.text
+
+
+    await message.answer("Введите info product: ")
+    await store_fsm.next()
+
+async def load_category(message: types.Message, state=FSMContext):
+    async with state.proxy() as data:
+        data['category'] = message.text
+
+    await message.answer("Введите размер товара: ")
+    await store_fsm.next()
+
+
 async def load_photo(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['photo'] = message.photo[-1].file_id
@@ -61,9 +70,10 @@ async def load_photo(message: types.Message, state=FSMContext):
     await message.answer_photo(photo=data['photo'],
                                caption=f"Заполненный товар: \n"
                                        f"Название - {data['name']}\n"
-                                       f"категория - {data['category']}\n"
                                        f"Размер - {data['size']}\n"
-                                       f"Цена - {data['price']}\n")
+                                       f"Цена - {data['price']}\n"
+                                       f"категория - {data['category']}\n"
+                                       f"инфо  продукт - {data['info_product()']}\n")
 
     await message.answer("Верные ли данные?", reply_markup=buttonsForFsmHw.submit)
     await store_fsm.next()
